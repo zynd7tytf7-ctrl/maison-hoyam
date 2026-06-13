@@ -1,0 +1,51 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# package manager
+pnpm-lock.yaml
+bun.lock
+.yarnrc.yml
+.pnpm-store
+
+# next.js
+.next/
+.cache/
+out/
+
+# production
+dist/
+build/
+
+# env files
+.env
+.env.local
+.env.production
+.env.development
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+prisma/generated/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# deepseek workspace
+.deepseek/config.toml

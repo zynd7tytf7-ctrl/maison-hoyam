@@ -1,0 +1,82 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 20
+  PNPM_VERSION: 9
+
+jobs:
+  validate:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: TypeScript Check
+        run: npx tsc --noEmit
+
+      - name: Prisma Validate & Generate
+        run: |
+          npx prisma validate
+          npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://placeholder:placeholder@localhost:5432/placeholder' }}
+
+  pr-metadata:
+    name: PR Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check PR Title Format
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const pattern = /^(feat|fix|chore|docs|refactor|test|style|perf|ci|build)(\(.+\))?!?:\s.+/;
+            if (!pattern.test(title)) {
+              core.warning(
+                'PR title should follow Conventional Commits: ' +
+                'feat|fix|chore|docs|refactor|test|style|perf|ci|build(scope): description'
+              );
+            }
+
+      - name: Check PR Body
+        uses: actions/github-script@v7
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-body-check') }}
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const hasDescription = body.length > 30;
+            if (!hasDescription) {
+              core.warning('PR body seems too short — please add a meaningful description.');
+            }
+
+  pr-size-label:
+    name: Size Label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/labeler@v5
+        continue-on-error: true
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml

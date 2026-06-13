@@ -1,0 +1,23 @@
+# Default owner for everything
+* @your-org/maintainers
+
+# Prisma schema and migrations
+/prisma/ @your-org/backend
+
+# App routes and API
+/app/api/ @your-org/backend
+/app/ (page.tsx|layout.tsx|template.tsx) @your-org/frontend
+
+# UI components
+/components/ui/ @your-org/frontend
+/components/layouts/ @your-org/frontend
+
+# Project configuration
+/.github/ @your-org/maintainers
+/next.config.js @your-org/maintainers
+/package.json @your-org/maintainers
+/tsconfig.json @your-org/maintainers
+
+# Tailwind and styles
+/tailwind.config.ts @your-org/frontend
+/app/globals.css @your-org/frontend

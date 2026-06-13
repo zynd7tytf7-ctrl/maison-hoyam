@@ -1,0 +1,5 @@
+# Add this to ~/.deepseek/config.toml (at the end of the file)
+
+[mcp.browser-tools]
+command = "npx"
+args = ["@agentdeskai/browser-tools-mcp@1.2.0"]
