@@ -49,3 +49,10 @@ next-env.d.ts
 
 # deepseek workspace
 .deepseek/config.toml
+
+# test artifacts
+test-results/
+
+# temp snapshots
+nextjs_space/snapshot-*
+*.snapshot.*
