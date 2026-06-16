@@ -76,6 +76,8 @@ export default function ContactForm() {
               className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? "right-5" : "left-5"} text-brand-gold/50`}
             />
             <input
+              id="contact-name"
+              name="name"
               type="text"
               required
               value={formData.name}
@@ -84,6 +86,7 @@ export default function ContactForm() {
               }
               placeholder={t?.contact?.namePlaceholder ?? "Your name"}
               className={`${inputClass} ${isRtl ? "pr-12" : "pl-12"}`}
+              autoComplete="name"
             />
           </div>
         </div>
@@ -95,6 +98,8 @@ export default function ContactForm() {
               className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? "right-5" : "left-5"} text-brand-gold/50`}
             />
             <input
+              id="contact-email"
+              name="email"
               type="email"
               required
               value={formData.email}
@@ -103,6 +108,7 @@ export default function ContactForm() {
               }
               placeholder={t?.contact?.emailPlaceholder ?? "Your email"}
               className={`${inputClass} ${isRtl ? "pr-12" : "pl-12"}`}
+              autoComplete="email"
             />
           </div>
         </div>
@@ -117,6 +123,8 @@ export default function ContactForm() {
               className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? "right-5" : "left-5"} text-brand-gold/50`}
             />
             <input
+              id="contact-phone"
+              name="phone"
               type="tel"
               value={formData.phone}
               onChange={(e) =>
@@ -124,6 +132,7 @@ export default function ContactForm() {
               }
               placeholder={t?.contact?.phonePlaceholder ?? "Your phone"}
               className={`${inputClass} ${isRtl ? "pr-12" : "pl-12"}`}
+              autoComplete="tel"
             />
           </div>
         </div>
@@ -137,6 +146,8 @@ export default function ContactForm() {
               className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? "right-5" : "left-5"} text-brand-gold/50`}
             />
             <input
+              id="contact-subject"
+              name="subject"
               type="text"
               required
               value={formData.subject}
@@ -158,6 +169,8 @@ export default function ContactForm() {
             className={`absolute top-[18px] ${isRtl ? "right-5" : "left-5"} text-brand-gold/50`}
           />
           <textarea
+            id="contact-message"
+            name="message"
             required
             rows={5}
             value={formData.message}
