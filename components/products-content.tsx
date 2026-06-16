@@ -11,6 +11,7 @@ import ProductFilter from "./product-filter";
 export default function ProductsContent() {
   const { locale, t, isRtl } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001";
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -27,8 +28,40 @@ export default function ProductsContent() {
     return (productData ?? []).filter((p: any) => p?.collection === selectedCategory);
   }, [selectedCategory]);
 
+  // JSON-LD Product structured data
+  const productJsonLd = (productData ?? []).map((product: any, i: number) => {
+    const pData = product?.en ?? {};
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: pData.name,
+      description: pData.tagline,
+      image: `${siteUrl}${product.image}`,
+      brand: {
+        "@type": "Brand",
+        name: "Maison Hoyam",
+      },
+      offers: {
+        "@type": "Offer",
+        price: pData.discountPrice?.toString() ?? pData.price?.toString() ?? "",
+        priceCurrency: "AED",
+        availability: "https://schema.org/InStock",
+        url: `${siteUrl}/products#${product.id ?? ""}`,
+      },
+    };
+  });
+
   return (
     <div className="min-h-screen bg-white">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            productJsonLd.length === 1 ? productJsonLd[0] : productJsonLd,
+          ),
+        }}
+      />
       {/* Hero */}
       <section className="pt-28 pb-16 md:pt-36 md:pb-20 relative">
         <div className="absolute inset-0 shimmer-gold pointer-events-none" />
@@ -83,7 +116,7 @@ export default function ProductsContent() {
                           alt={pData?.name ?? "Product"}
                           fill
                           sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-[1200ms]"
+                          className="object-cover group-hover:scale-105 transition-transform duration-1000"
                         />
                       </div>
                     </div>

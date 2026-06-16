@@ -325,7 +325,7 @@ export const productData = [
     en: {
       name: 'Le Rêve Botanical',
       tagline: 'Nourish. Strengthen. Transform.',
-      description: 'A luxurious botanical treatment for stronger roots and healthier-looking hair.',
+      description: 'A potent botanical oil blend that penetrates deep into the hair shaft to rebuild strength from within. Cold-pressed Argan and Castor Oils fuse with Rosemary Extract to fortify roots, reduce breakage, and restore the natural elasticity of truly healthy hair. The result: strands that feel thicker, stronger, and impossibly silky.',
       price: 500,
       discountPrice: 200,
       ingredients: ['Argan Oil', 'Castor Oil', 'Rosemary Extract', 'Sweet Almond Oil'],
@@ -433,13 +433,13 @@ export const productData = [
   },
   {
     id: 'citrine-glow',
-    image: '/images/citrine-glow.webp',
+    image: '/images/citrine_glow.jpg',
     isHero: false,
     collection: 'citrine',
     en: {
       name: 'Citrine Glow',
       tagline: 'Brighten. Refresh. Illuminate.',
-      description: 'Not all radiance is seen—some of it is felt. Born from the belief that self-care is more than a routine, Citrine Glow transforms everyday moments into rituals of beauty and stillness. Inspired by the warmth of sunlight and the purity of citrus, it invites you to slow down and reconnect with yourself. Its velvety texture glides like a whisper of light upon the skin, leaving behind a feeling of softness, freshness, and quiet luxury.',
+      description: 'Inspired by the warmth of sunlight and the purity of citrus, Citrine Glow transforms everyday self-care into a ritual of stillness and radiance. Its velvety texture glides like a whisper of light, gently exfoliating with Himalayan Salt while Vitamin C and Jojoba Oil refresh and renew. The result: skin that feels soft, bright, and alive.',
       price: 500,
       discountPrice: 200,
       ingredients: ['Lemon Extract', 'Himalayan Salt', 'Jojoba Oil', 'Sunflower Seed Oil', 'Vitamin C Complex'],
@@ -471,13 +471,13 @@ export const productData = [
   },
   {
     id: 'rose-de-nuit',
-    image: '/images/rose-de-nuit.webp',
+    image: '/images/rose_de_nuit.jpg',
     isHero: false,
     collection: 'rose',
     en: {
       name: 'Rose de Nuit',
       tagline: 'Indulge. Soothe. Restore.',
-      description: 'When the world grows quiet, the most beautiful rituals begin. Created as an invitation to slow down, Rose de Nuit captures the timeless elegance of blooming roses beneath the moonlight. A sensorial experience designed to transform self-care into a moment of serenity and indulgence. Its velvety texture melts into the skin like silk, leaving behind a feeling of softness, comfort, and quiet luxury. Inspired by moonlit gardens and the art of slow beauty, Rose de Nuit embodies the grace of evenings devoted to rest, reflection, and renewal.',
+      description: 'When the world grows quiet, the most beautiful rituals begin. Rose de Nuit captures the timeless elegance of blooming roses beneath moonlight — a velvety, silk-melting formula enriched with Rose Petal Extract, Camellia Oil, and Shea Butter. It soothes, softens, and restores the skin, transforming your evening routine into a serene moment of self-care and quiet luxury.',
       price: 500,
       discountPrice: 200,
       ingredients: ['Rose Petal Extract', 'Brown Sugar Crystals', 'Camellia Oil', 'Shea Butter', 'Rose Absolute'],

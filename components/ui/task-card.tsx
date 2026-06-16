@@ -1,10 +1,8 @@
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from './card'
-import { Badge } from './badge'
-import { Checkbox } from './checkbox'
-import { Button } from './button'
 import { Pencil, Trash2 } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { Badge } from './badge'
+import { Button } from './button'
+import { Card, CardContent, CardHeader, CardTitle } from './card'
+import { Checkbox } from './checkbox'
 
 interface TaskCardProps {
   id: string
@@ -28,12 +26,7 @@ export function TaskCard({
   onEdit,
 }: TaskCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.2 }}
-    >
+    <div>
       <Card className={`w-full ${completed ? 'opacity-60' : ''}`}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div className="flex items-center space-x-2">
@@ -61,6 +54,6 @@ export function TaskCard({
           </Badge>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
 }

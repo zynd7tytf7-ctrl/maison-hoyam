@@ -287,7 +287,7 @@ export default function HomeContent() {
                     alt="Le Rêve Botanical Hair Oil — Soft Care Collection"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-[1200ms]"
+                    className="object-cover group-hover:scale-105 transition-transform duration-1000"
                     loading="lazy"
                   />
                   {/* Soft gradient overlay — bottom-heavy, top-light for image visibility */}
@@ -330,7 +330,7 @@ export default function HomeContent() {
                     alt="Café Noir Scalp Scrub — Deep Repair Collection"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-[1200ms]"
+                    className="object-cover group-hover:scale-105 transition-transform duration-1000"
                     loading="lazy"
                   />
                   {/* Soft gradient overlay — bottom-heavy, top-light for image visibility */}
@@ -454,8 +454,8 @@ export default function HomeContent() {
                   >
                     <div
                       className={`bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[2rem] overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(44,24,16,0.25)] card-shine-effect card-inner-glow hover-glow ${isLumiere
-                          ? "border-2 border-brand-gold/25 hover:border-brand-gold/40 shadow-[0_0_30px_rgba(212,165,116,0.15)]"
-                          : "border border-brand-gold/10 hover:border-brand-gold/25"
+                        ? "border-2 border-brand-gold/25 hover:border-brand-gold/40 shadow-[0_0_30px_rgba(212,165,116,0.15)]"
+                        : "border border-brand-gold/10 hover:border-brand-gold/25"
                         }`}
                     >
                       <div className="relative aspect-[3/4] bg-gradient-to-br from-brand-brown-mid to-brand-brown-dark overflow-hidden">
@@ -466,7 +466,7 @@ export default function HomeContent() {
                           alt={pData?.name ?? "Product"}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          className="object-cover group-hover:scale-108 transition-transform duration-[1200ms]"
+                          className="object-cover group-hover:scale-108 transition-transform duration-1000"
                         />
                         {/* Lumière badge */}
                         {isLumiere && (

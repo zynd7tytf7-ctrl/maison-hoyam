@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import { Crown, FlaskConical, Gem, Heart, Recycle } from "lucide-react";
 import Image from "next/image";
-import { useLanguage } from "./language-context";
 import AnimatedSection from "./animated-section";
-import { Gem, Recycle, FlaskConical, Crown, Heart } from "lucide-react";
+import { useLanguage } from "./language-context";
 
 export default function AboutContent() {
   const { t, isRtl } = useLanguage();
@@ -43,7 +42,7 @@ export default function AboutContent() {
                   alt="Lumière Hair Serum by Maison Hoyam"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-[1200ms]"
+                  className="object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
               </div>
             </AnimatedSection>
@@ -92,7 +91,7 @@ export default function AboutContent() {
                   alt="Le Rêve Botanical Hair Oil - Maison Hoyam philosophy"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-[1200ms]"
+                  className="object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
               </div>
             </AnimatedSection>

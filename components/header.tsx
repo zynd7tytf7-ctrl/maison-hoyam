@@ -9,15 +9,16 @@ import { useLanguage } from "./language-context";
 
 export default function Header() {
   const { locale, t, setLocale } = useLanguage();
-  const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window?.scrollY > 30);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    setMounted(true);
   }, []);
+
+  // Always show polished light look — consistent across all pages from the very start.
+  const effectiveScrolled = true;
 
   useEffect(() => {
     setMobileOpen(false);
@@ -35,36 +36,37 @@ export default function Header() {
     return pathname?.startsWith?.(href);
   };
 
+  // Always polished & consistent look from the very start
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
-          ? "bg-white/95 backdrop-blur-2xl shadow-[0_1px_0_rgba(212,165,116,0.12),0_8px_40px_rgba(44,24,16,0.06)]"
-          : "bg-gradient-to-b from-brand-brown-dark/50 to-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${effectiveScrolled
+        ? "bg-white/95 backdrop-blur-2xl shadow-[0_1px_0_rgba(212,165,116,0.12),0_8px_40px_rgba(44,24,16,0.06)]"
+        : "bg-brand-charcoal/85 backdrop-blur-xl shadow-[0_1px_0_rgba(212,165,116,0.08)]"
         }`}
     >
       {/* Top accent line - animated */}
       <div
-        className={`h-[1px] transition-all duration-700 ${scrolled
-            ? "bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent"
-            : "bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent"
+        className={`h-[1px] transition-all duration-700 ${effectiveScrolled
+          ? "bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent"
+          : "bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent"
           }`}
       />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div
-          className={`flex items-center justify-between transition-all duration-700 ${scrolled ? "h-16 md:h-18" : "h-20 md:h-24"
+          className={`flex items-center justify-between transition-all duration-700 ${effectiveScrolled ? "h-16 md:h-18" : "h-20 md:h-24"
             }`}
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0 group">
             <div
-              className={`relative transition-all duration-500 ${scrolled
-                  ? "w-10 h-10 md:w-11 md:h-11"
-                  : "w-[52px] h-[52px] md:w-14 md:h-14"
+              className={`relative transition-all duration-500 ${effectiveScrolled
+                ? "w-10 h-10 md:w-11 md:h-11"
+                : "w-[52px] h-[52px] md:w-14 md:h-14"
                 }`}
             >
               <Image
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="Maison Hoyam logo"
                 fill
                 sizes="(max-width: 768px) 40px, 56px"
@@ -74,18 +76,18 @@ export default function Header() {
             </div>
             <div className="flex flex-col">
               <span
-                className={`font-serif tracking-[0.18em] transition-all duration-500 ${scrolled
-                    ? "text-brand-brown-dark text-sm md:text-base"
-                    : "text-white text-base md:text-lg drop-shadow-md"
+                className={`font-serif tracking-[0.18em] transition-all duration-500 ${effectiveScrolled
+                  ? "text-brand-brown-dark text-sm md:text-base"
+                  : "text-white text-base md:text-lg drop-shadow-md"
                   }`}
               >
                 <span className="hidden sm:inline">MAISON HOYAM</span>
                 <span className="sm:hidden">MH</span>
               </span>
               <span
-                className={`text-[8px] tracking-[0.3em] uppercase transition-all duration-500 hidden sm:block ${scrolled
-                    ? "text-brand-gold-dark/80"
-                    : "text-brand-gold/80 drop-shadow-sm"
+                className={`text-[8px] tracking-[0.3em] uppercase transition-all duration-500 hidden sm:block ${effectiveScrolled
+                  ? "text-brand-gold-dark/80"
+                  : "text-brand-gold/80 drop-shadow-sm"
                   }`}
               >
                 Luxury Haircare House
@@ -101,13 +103,13 @@ export default function Header() {
                 <Link
                   key={link?.href}
                   href={link?.href ?? "/"}
-                  className={`relative px-4 py-2 text-[13px] tracking-[0.12em] uppercase transition-all duration-300 rounded-full ${scrolled
-                      ? active
-                        ? "text-brand-gold-dark font-semibold bg-brand-gold/12"
-                        : "text-brand-brown/75 font-medium hover:text-brand-brown-dark hover:bg-brand-gold/8"
-                      : active
-                        ? "text-white font-semibold bg-white/12"
-                        : "text-white/80 font-medium hover:text-white hover:bg-white/8"
+                  className={`relative px-4 py-2 text-[13px] tracking-[0.12em] uppercase transition-all duration-300 rounded-full ${effectiveScrolled
+                    ? active
+                      ? "text-brand-gold-dark font-semibold bg-brand-gold/12"
+                      : "text-brand-brown/75 font-medium hover:text-brand-brown-dark hover:bg-brand-gold/8"
+                    : active
+                      ? "text-white font-semibold bg-white/12"
+                      : "text-white/80 font-medium hover:text-white hover:bg-white/8"
                     }`}
                 >
                   {link?.label}
@@ -120,16 +122,16 @@ export default function Header() {
 
             {/* Divider */}
             <div
-              className={`w-px h-4 mx-3 transition-all duration-500 ${scrolled ? "bg-brand-gold/20" : "bg-white/15"
+              className={`w-px h-4 mx-3 transition-all duration-500 ${effectiveScrolled ? "bg-brand-gold/20" : "bg-white/15"
                 }`}
             />
 
             {/* Language Switcher */}
             <button
               onClick={() => setLocale(locale === "en" ? "ar" : "en")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all duration-300 border ${scrolled
-                  ? "border-brand-gold/20 text-brand-brown hover:bg-brand-gold/5 hover:border-brand-gold/35"
-                  : "border-white/20 text-white/80 hover:bg-white/10 hover:border-white/35"
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all duration-300 border ${effectiveScrolled
+                ? "border-brand-gold/20 text-brand-brown hover:bg-brand-gold/5 hover:border-brand-gold/35"
+                : "border-white/20 text-white/80 hover:bg-white/10 hover:border-white/35"
                 }`}
             >
               <Globe size={12} className="opacity-60" />
@@ -143,9 +145,9 @@ export default function Header() {
           <div className="flex items-center gap-2.5 md:hidden">
             <button
               onClick={() => setLocale(locale === "en" ? "ar" : "en")}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] tracking-wider border transition-all ${scrolled
-                  ? "border-brand-gold/20 text-brand-brown"
-                  : "border-white/20 text-white/80"
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] tracking-wider border transition-all ${effectiveScrolled
+                ? "border-brand-gold/20 text-brand-brown"
+                : "border-white/20 text-white/80"
                 }`}
             >
               <Globe size={10} className="opacity-60" />
@@ -153,9 +155,9 @@ export default function Header() {
             </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`p-2 rounded-xl transition-all ${scrolled
-                  ? "text-brand-brown hover:bg-brand-gold/5"
-                  : "text-white hover:bg-white/10"
+              className={`p-2 rounded-xl transition-all ${effectiveScrolled
+                ? "text-brand-brown hover:bg-brand-gold/5"
+                : "text-white hover:bg-white/10"
                 }`}
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -180,8 +182,8 @@ export default function Header() {
                     href={link?.href ?? "/"}
                     onClick={() => setMobileOpen(false)}
                     className={`flex items-center gap-3 py-3 px-4 rounded-2xl text-[13px] tracking-wider uppercase transition-all duration-300 ${active
-                        ? "text-brand-brown-dark bg-gradient-to-r from-brand-gold/12 to-brand-gold/5 font-semibold"
-                        : "text-brand-brown/70 hover:text-brand-brown-dark hover:bg-brand-gold/5"
+                      ? "text-brand-brown-dark bg-gradient-to-r from-brand-gold/12 to-brand-gold/5 font-semibold"
+                      : "text-brand-brown/70 hover:text-brand-brown-dark hover:bg-brand-gold/5"
                       }`}
                   >
                     {active && (

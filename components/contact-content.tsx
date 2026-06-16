@@ -1,20 +1,19 @@
 "use client";
 
-import React from "react";
-import { useLanguage } from "./language-context";
+import {
+  Clock,
+  Crown,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Shield,
+  Sparkles,
+  Star,
+  Truck,
+} from "lucide-react";
 import AnimatedSection from "./animated-section";
 import ContactForm from "./contact-form";
-import {
-  Mail,
-  MessageCircle,
-  MapPin,
-  Crown,
-  Clock,
-  Star,
-  Shield,
-  Truck,
-  Sparkles,
-} from "lucide-react";
+import { useLanguage } from "./language-context";
 
 export default function ContactContent() {
   const { t, isRtl } = useLanguage();
@@ -40,10 +39,10 @@ export default function ContactContent() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative pt-28 pb-20 md:pt-36 md:pb-24">
+      <section className="relative pt-28 pb-20 md:pt-36 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 shimmer-gold pointer-events-none" />
         {/* Decorative glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-brand-gold/3 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] max-w-full bg-brand-gold/3 blur-[120px] rounded-full pointer-events-none" />
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
           <AnimatedSection className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-gold/8 rounded-full text-brand-gold text-[10px] tracking-[0.3em] uppercase font-medium border border-brand-gold/15 mb-6">
@@ -186,8 +185,8 @@ export default function ContactContent() {
                 </div>
 
                 {/* Response Time Promise */}
-                <div className="bg-gradient-to-br from-brand-gold/5 to-brand-charcoal p-5 rounded-[1.25rem] border border-brand-gold/15 text-center">
-                  <p className="text-brand-gold/80 text-xs leading-relaxed">
+                <div className="bg-brand-charcoal p-5 rounded-[1.25rem] border border-brand-gold/15 text-center">
+                  <p className="text-brand-gold/90 text-xs leading-relaxed">
                     {isRtl
                       ? "نسعى للرد على جميع الاستفسارات خلال 24 ساعة. فريقنا جاهز لمساعدتك."
                       : "We aim to respond to all inquiries within 24 hours. Our team is ready to assist you."}

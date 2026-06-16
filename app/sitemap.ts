@@ -1,10 +1,8 @@
 import { MetadataRoute } from 'next';
-import { headers } from 'next/headers';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const headersList = headers();
-  const host = headersList?.get?.('x-forwarded-host') ?? process.env.NEXTAUTH_URL ?? 'http://localhost:3000';
-  const siteUrl = host?.startsWith?.('http') ? host : `https://${host}`;
 
   return [
     { url: siteUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },

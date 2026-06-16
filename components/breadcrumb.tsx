@@ -9,6 +9,8 @@ export default function Breadcrumb() {
   const pathname = usePathname();
   const { isRtl, t } = useLanguage();
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001";
+
   // Map routes to labels
   const routeLabels: { [key: string]: string } = {
     "/": (t as any)?.nav?.home ?? "Home",
@@ -26,38 +28,65 @@ export default function Breadcrumb() {
     routeLabels[`/${currentPath}`] ||
     currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
 
-  return (
-    <div
-      className={`bg-gradient-to-b from-brand-brown-dark/5 to-transparent border-b border-brand-gold/8 py-4 mt-20 ${isRtl ? "text-right" : "text-left"
-        }`}
-    >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        <nav className="flex items-center gap-2" aria-label="Breadcrumb">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-brand-brown/60 hover:text-brand-brown-dark transition-colors duration-300"
-          >
-            <Home size={16} />
-            <span className="text-sm font-medium">{routeLabels["/"]}</span>
-          </Link>
+  // JSON-LD BreadcrumbList structured data
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: routeLabels["/"],
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: currentLabel,
+        item: `${siteUrl}/${currentPath}`,
+      },
+    ],
+  };
 
-          {currentPath && (
-            <>
-              {isRtl ? (
-                <ChevronRight
-                  size={16}
-                  className="text-brand-gold/40 rotate-180"
-                />
-              ) : (
-                <ChevronRight size={16} className="text-brand-gold/40" />
-              )}
-              <span className="text-sm font-medium text-brand-brown-dark">
-                {currentLabel}
-              </span>
-            </>
-          )}
-        </nav>
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <div
+        className={`py-3 mt-16 ${isRtl ? "text-right" : "text-left"}`}
+      >
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <nav className="flex items-center gap-2" aria-label="Breadcrumb">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-brand-brown/60 hover:text-brand-brown-dark transition-colors duration-300"
+            >
+              <Home size={16} />
+              <span className="text-sm font-medium">{routeLabels["/"]}</span>
+            </Link>
+
+            {currentPath && (
+              <>
+                {isRtl ? (
+                  <ChevronRight
+                    size={16}
+                    className="text-brand-gold/40 rotate-180"
+                  />
+                ) : (
+                  <ChevronRight size={16} className="text-brand-gold/40" />
+                )}
+                <span className="text-sm font-medium text-brand-brown-dark">
+                  {currentLabel}
+                </span>
+              </>
+            )}
+          </nav>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
