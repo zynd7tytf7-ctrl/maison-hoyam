@@ -5,14 +5,19 @@ import {
   ArrowLeft,
   ArrowRight,
   Crown,
+  Crown as CrownIcon,
   Gem,
   Leaf,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AnimatedSection from "./animated-section";
 import { useLanguage } from "./language-context";
+import AddToBagButton from "@/components/add-to-bag-button";
+import TrustBadges from "@/components/trust-badges";
+
+import type { CartItem } from "@/components/cart-context";
 import Testimonials from "./testimonials";
 
 const marqueeItems = [
@@ -261,7 +266,7 @@ export default function HomeContent() {
       <section className="py-28 md:py-36 bg-[#FAFAFA] relative">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <AnimatedSection className="text-center mb-16">
-            <span className="text-brand-gold text-xs tracking-[0.4em] uppercase font-medium">
+            <span className="text-brand-brown text-xs tracking-[0.4em] uppercase font-medium">
               {(t as any)?.collections?.subtitle ?? "Two worlds. One maison."}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-brand-brown-dark mt-5">
@@ -396,7 +401,7 @@ export default function HomeContent() {
           </AnimatedSection>
 
           <AnimatedSection className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-brand-cream/65 leading-[1.9] text-[15px]">
+            <p className="text-brand-cream/80 leading-[1.9] text-[15px]">
               {(t as any)?.philosophy?.description ?? ""}
             </p>
           </AnimatedSection>
@@ -424,117 +429,159 @@ export default function HomeContent() {
         </div>
       </section>
 
-      {/* ===== 5. PRODUCTS GRID — LUMIÈRE DOMINANT ===== */}
-      <section className="py-28 md:py-36 relative">
-        <div className="absolute inset-0 shimmer-gold pointer-events-none" />
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-          <AnimatedSection className="text-center mb-20">
-            <span className="text-brand-gold text-xs tracking-[0.4em] uppercase font-medium">
-              {(t as any)?.products?.subtitle ?? ""}
+      {/* ===== 5. HAIR RITUALS ===== */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <span className="text-brand-brown text-xs tracking-[0.4em] uppercase font-medium">
+              {(t as any)?.products?.subtitle ?? "The Collection"}
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-brand-brown-dark mt-5">
-              {(t as any)?.products?.title ?? "The Collection"}
+            <h2 className="font-serif text-3xl sm:text-4xl text-brand-brown-dark mt-3 mb-4">
+              Hair Rituals
             </h2>
-            <div className="flex items-center justify-center gap-4 mt-4">
-              <div className="h-px w-16 bg-gradient-to-r from-transparent to-brand-gold/30" />
-              <Sparkles size={12} className="text-brand-gold/35" />
-              <div className="h-px w-16 bg-gradient-to-l from-transparent to-brand-gold/30" />
+            <div className="flex items-center justify-center gap-3">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-brand-gold/30" />
+              <CrownIcon size={12} className="text-brand-gold/30" />
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-brand-gold/30" />
             </div>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(productData ?? [])?.map?.((product: any, i: number) => {
-              const pData = product?.[locale] ?? product?.en ?? {};
-              const isLumiere = product?.isHero === true;
-              return (
-                <AnimatedSection key={product?.id ?? i} delay={i * 0.12}>
-                  <Link
-                    href={`/products#${product?.id ?? ""}`}
-                    className="group block"
-                  >
-                    <div
-                      className={`bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[2rem] overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(44,24,16,0.25)] card-shine-effect card-inner-glow hover-glow ${isLumiere
-                        ? "border-2 border-brand-gold/25 hover:border-brand-gold/40 shadow-[0_0_30px_rgba(212,165,116,0.15)]"
-                        : "border border-brand-gold/10 hover:border-brand-gold/25"
-                        }`}
-                    >
-                      <div className="relative aspect-[3/4] bg-gradient-to-br from-brand-brown-mid to-brand-brown-dark overflow-hidden">
-                        <Image
-                          src={
-                            product?.image ?? "/images/lumiere-hair-serum.webp"
-                          }
-                          alt={pData?.name ?? "Product"}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          className="object-cover group-hover:scale-108 transition-transform duration-1000"
-                        />
-                        {/* Lumière badge */}
-                        {isLumiere && (
-                          <div className="absolute top-4 left-4 z-10">
-                            <span className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-brown-dark/70 backdrop-blur-xl rounded-full text-brand-gold text-[10px] tracking-[0.2em] uppercase border border-brand-gold/25 font-semibold">
-                              <Sparkles size={10} />
-                              {isRtl ? "المنتج المميز" : "Hero Product"}
-                            </span>
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-6 group-hover:translate-y-0 transition-all duration-500">
-                          <span className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white/12 backdrop-blur-xl rounded-full text-white text-[11px] tracking-[0.15em] uppercase border border-white/15">
-                            {(t as any)?.products?.viewDetails ??
-                              "Explore This Ritual"}
-                            <ArrowIcon size={12} />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-7">
-                        <h3 className="font-serif text-brand-cream text-xl mb-2">
-                          {pData?.name ?? ""}
-                        </h3>
-                        <p className="text-brand-cream/60 text-sm leading-relaxed">
-                          {pData?.tagline ?? ""}
-                        </p>
-                        {(pData?.discountPrice ?? pData?.price) && (
-                          <div className="mt-4 flex items-center gap-3">
-                            <span className="text-brand-gold font-serif text-2xl font-semibold tracking-tight">
-                              {pData?.discountPrice ?? pData?.price} AED
-                            </span>
-                            {pData?.discountPrice && pData?.price && (
-                              <span className="text-brand-cream/40 text-sm line-through">
-                                {pData.price} AED
-                              </span>
-                            )}
-                            {pData?.discountPrice && pData?.price && (
-                              <span className="ml-auto px-3 py-1 bg-red-500/15 text-red-400 text-[10px] font-semibold rounded-full tracking-wider uppercase border border-red-500/20">
-                                {Math.round(
-                                  ((pData.price - pData.discountPrice) /
-                                    pData.price) *
-                                  100,
-                                )}
-                                % OFF
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                </AnimatedSection>
-              );
-            }) ?? []}
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {productData
+              ?.filter((p: any) =>
+                ["lumiere", "le-reve", "coffee-noir"].includes(
+                  p?.collection ?? "",
+                ),
+              )
+              ?.map((product: any) => {
+                const pData =
+                  product?.[locale as "en" | "ar"] ?? product?.en ?? {};
+                return (
+                  <div
+                    key={product?.id}
+                    className="group relative bg-white rounded-[2rem] p-6 border border-brand-gold/10 hover:border-brand-gold/30 shadow-sm hover:shadow-[0_20px_60px_rgba(212,165,116,0.1)] transition-all duration-500"
+                  >
+                    <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-brand-brown-dark/5 to-brand-charcoal/5 mb-5">
+                      <Image
+                        src={
+                          product?.image ?? "/images/lumiere-hair-serum.webp"
+                        }
+                        alt={pData?.name ?? ""}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                    <h3 className="font-serif text-lg text-brand-brown-dark mb-1">
+                      {pData?.name ?? ""}
+                    </h3>
+                    <p className="text-brand-brown text-xs uppercase tracking-wider mb-3">
+                      {pData?.tagline ?? ""}
+                    </p>
+                    <p className="text-brand-brown-dark font-serif text-xl font-semibold mb-4">
+                      {pData?.discountPrice ?? pData?.price ?? 0} AED
+                    </p>
+                    {/* Trust Badges */}
+                    <div className="mb-4">
+                      <TrustBadges />
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <AddToBagButton
+                        variant="default"
+                        product={{
+                          productId: product?.id ?? "",
+                          name: pData?.name ?? "",
+                          price: pData?.discountPrice ?? pData?.price ?? 0,
+                          quantity: 1,
+                          image:
+                            product?.image ?? "/images/lumiere-hair-serum.webp",
+                          collection: product?.collection ?? "",
+                          locale: locale as "en" | "ar",
+                        }}
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+                );
+              }) ?? []}
+          </div>
+        </div>
+      </section>
 
-          <AnimatedSection className="text-center mt-16">
-            <Link
-              href="/products"
-              className="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-brand-gold to-brand-gold-mid hover:from-brand-gold-mid hover:to-brand-gold-dark text-white rounded-full transition-all duration-300 text-sm tracking-[0.12em] uppercase font-medium shadow-[0_8px_32px_rgba(212,165,116,0.35)] hover:shadow-[0_16px_48px_rgba(212,165,116,0.5)] hover:-translate-y-1.5 btn-press btn-ripple"
-            >
-              {(t as any)?.products?.shopAll ?? "Explore the Full Collection"}
-              <ArrowIcon
-                size={16}
-                className="group-hover:translate-x-1.5 transition-transform duration-300"
-              />
-            </Link>
-          </AnimatedSection>
+      {/* Divider */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent my-8" />
+      </div>
+
+      {/* ===== 6. BODY RITUALS ===== */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <span className="text-brand-brown text-xs tracking-[0.4em] uppercase font-medium">
+              {(t as any)?.products?.subtitle ?? "The Collection"}
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl text-brand-brown-dark mt-3 mb-4">
+              Body Rituals
+            </h2>
+            <div className="flex items-center justify-center gap-3">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-brand-gold/30" />
+              <CrownIcon size={12} className="text-brand-gold/30" />
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-brand-gold/30" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {productData
+              ?.filter((p: any) =>
+                ["citrine", "rose"].includes(p?.collection ?? ""),
+              )
+              ?.map((product: any) => {
+                const pData =
+                  product?.[locale as "en" | "ar"] ?? product?.en ?? {};
+                return (
+                  <div
+                    key={product?.id}
+                    className="group relative bg-white rounded-[2rem] p-6 border border-brand-gold/10 hover:border-brand-gold/30 shadow-sm hover:shadow-[0_20px_60px_rgba(212,165,116,0.1)] transition-all duration-500"
+                  >
+                    <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-brand-brown-dark/5 to-brand-charcoal/5 mb-5">
+                      <Image
+                        src={product?.image ?? "/images/citrine_glow.jpg"}
+                        alt={pData?.name ?? ""}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                    <h3 className="font-serif text-lg text-brand-brown-dark mb-1">
+                      {pData?.name ?? ""}
+                    </h3>
+                    <p className="text-brand-brown text-xs uppercase tracking-wider mb-3">
+                      {pData?.tagline ?? ""}
+                    </p>
+                    <p className="text-brand-brown-dark font-serif text-xl font-semibold mb-4">
+                      {pData?.discountPrice ?? pData?.price ?? 0} AED
+                    </p>
+                    {/* Trust Badges */}
+                    <div className="mb-4">
+                      <TrustBadges />
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <AddToBagButton
+                        variant="default"
+                        product={{
+                          productId: product?.id ?? "",
+                          name: pData?.name ?? "",
+                          price: pData?.discountPrice ?? pData?.price ?? 0,
+                          quantity: 1,
+                          image: product?.image ?? "/images/citrine_glow.jpg",
+                          collection: product?.collection ?? "",
+                          locale: locale as "en" | "ar",
+                        }}
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+                );
+              }) ?? []}
+          </div>
         </div>
       </section>
 

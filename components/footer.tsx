@@ -58,7 +58,7 @@ export default function Footer() {
                 placeholder={isRtl ? "بريدك الإلكتروني" : "Your email"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-5 py-3 rounded-2xl bg-white/10 border border-brand-gold/30 text-white placeholder-brand-cream/50 focus:outline-none focus:border-brand-gold/60 focus:ring-1 focus:ring-brand-gold/30 transition-all"
+                className="flex-1 px-5 py-3 rounded-2xl bg-white/10 border border-brand-gold/30 text-white placeholder-brand-cream/50 focus:outline-none focus:border-brand-gold/60 focus:ring-1 focus:ring-brand-gold/30 focus:bg-gradient-to-r focus:from-brand-gold/10 focus:to-transparent transition-all"
                 autoComplete="email"
                 required
               />

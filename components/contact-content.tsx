@@ -103,9 +103,9 @@ export default function ContactContent() {
                       <Mail size={20} className="text-brand-gold" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
+                      <p className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
                         {isRtl ? "البريد الإلكتروني" : "Email Us"}
-                      </h3>
+                      </p>
                       <a
                         href="mailto:contact@maisonhoyam.com"
                         className="text-brand-gold text-sm hover:text-brand-cream transition-colors truncate block"
@@ -126,9 +126,9 @@ export default function ContactContent() {
                       />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
+                      <p className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
                         WhatsApp
-                      </h3>
+                      </p>
                       <a
                         href="https://wa.me/971501234567"
                         target="_blank"
@@ -150,9 +150,9 @@ export default function ContactContent() {
                       <MapPin size={20} className="text-brand-gold" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
+                      <p className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
                         {isRtl ? "الموقع" : "Location"}
-                      </h3>
+                      </p>
                       <p className="text-brand-cream/70 text-sm">
                         {isRtl
                           ? "الإمارات العربية المتحدة"
@@ -169,9 +169,9 @@ export default function ContactContent() {
                       <Clock size={20} className="text-brand-gold" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
+                      <p className="text-brand-cream/60 text-[10px] tracking-[0.2em] uppercase mb-1">
                         {isRtl ? "ساعات العمل" : "Business Hours"}
-                      </h3>
+                      </p>
                       <p className="text-brand-cream/70 text-sm leading-relaxed">
                         {isRtl
                           ? "السبت – الخميس: 9 صباحاً – 6 مساءً"

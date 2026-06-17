@@ -1,0 +1,135 @@
+{
+  // === General ===
+  "formatter": {
+    "language_server": {
+      "name": "typescript-language-server"
+    }
+  },
+  "format_on_save": "on",
+  "hard_tabs": false,
+  "tab_size": 2,
+  "preferred_line_length": 100,
+
+  // === Language Overrides ===
+  "languages": {
+    "TypeScript": {
+      "language_servers": [
+        "typescript-language-server",
+        "eslint",
+        "tailwindcss-language-server"
+      ],
+      "formatter": {
+        "language_server": {
+          "name": "typescript-language-server"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports": true
+      },
+      "show_inline_type_annotations": true,
+      "show_imports_on_move": true,
+      "enable_language_server": true
+    },
+    "TSX": {
+      "language_servers": [
+        "typescript-language-server",
+        "eslint",
+        "tailwindcss-language-server"
+      ],
+      "formatter": {
+        "language_server": {
+          "name": "typescript-language-server"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports": true
+      },
+      "show_inline_type_annotations": true,
+      "preferred_line_length": 100
+    },
+    "JavaScript": {
+      "language_servers": [
+        "typescript-language-server",
+        "eslint"
+      ],
+      "formatter": {
+        "language_server": {
+          "name": "typescript-language-server"
+        }
+      }
+    },
+    "JSON": {
+      "formatter": {
+        "language_server": {
+          "name": "vscode-json-language-server"
+        }
+      }
+    },
+    "CSS": {
+      "language_servers": [
+        "tailwindcss-language-server",
+        "vscode-css-language-server"
+      ]
+    },
+    "Prisma": {
+      "language_servers": [
+        "prisma-language-server"
+      ]
+    },
+    "Markdown": {
+      "preferred_line_length": 80,
+      "soft_wrap": "editor_width"
+    }
+  },
+
+  // === File Management ===
+  "ensure_final_newline_on_save": true,
+  "trim_trailing_whitespace": true,
+  "remove_trailing_whitespace_on_save": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+
+  // === Editor ===
+  "cursor_blink": true,
+  "show_wrap_guides": true,
+  "indent_guides": {
+    "enabled": true,
+    "coloring": "indent_aware"
+  },
+  "show_whitespaces": "all",
+  "relative_line_numbers": true,
+  "confirm_quit": false,
+  "restore_on_startup": "last_session",
+
+  // === Search ===
+  "search_exclusions": {
+    ".next": true,
+    "node_modules": true,
+    "pnpm-lock.yaml": true,
+    "bun.lock": true,
+    "*.tsbuildinfo": true,
+    ".pnpm-store": true
+  },
+
+  // === Project-Specific Paths ===
+  "load_direnv": true,
+  "typescript": {
+    "tsdk": "node_modules/typescript/lib",
+    "enable_server_side_fixes": true,
+    "inlay_hints": {
+      "parameter_names": "enabled",
+      "parameter_types": "enabled",
+      "variable_types": "enabled",
+      "property_declaration_types": "enabled",
+      "return_types": {
+        "enabled": true,
+        "include_expression_statements": false
+      }
+    }
+  }
+}

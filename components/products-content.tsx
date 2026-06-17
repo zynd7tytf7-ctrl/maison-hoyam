@@ -1,16 +1,38 @@
 "use client";
 
 import { productData } from "@/lib/translations";
-import { Check, Crown, Droplets, Flower2, Sparkles } from "lucide-react";
+import {
+  Check,
+  Crown,
+  Droplets,
+  Flower2,
+  Sparkles,
+  ChevronDown,
+  ShoppingBag,
+} from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import AnimatedSection from "./animated-section";
 import { useLanguage } from "./language-context";
 import ProductFilter from "./product-filter";
+import AddToBagButton from "@/components/add-to-bag-button";
+import TrustBadges from "@/components/trust-badges";
+import FragranceNotes from "@/components/fragrance-notes";
+import ReviewSection from "@/components/review-section";
+import BundleSuggestion from "@/components/bundle-suggestion";
+import StickyMobileBar from "@/components/sticky-mobile-bar";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import type { CartItem } from "@/components/cart-context";
 
 export default function ProductsContent() {
   const { locale, t, isRtl } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001";
 
   // Get unique categories
@@ -25,7 +47,9 @@ export default function ProductsContent() {
   // Filter products
   const filteredProducts = useMemo(() => {
     if (!selectedCategory) return productData ?? [];
-    return (productData ?? []).filter((p: any) => p?.collection === selectedCategory);
+    return (productData ?? []).filter(
+      (p: any) => p?.collection === selectedCategory,
+    );
   }, [selectedCategory]);
 
   // JSON-LD Product structured data
@@ -50,6 +74,10 @@ export default function ProductsContent() {
       },
     };
   });
+
+  const toggleProduct = (id: string) => {
+    setExpandedProduct((prev) => (prev === id ? null : id));
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -93,176 +121,318 @@ export default function ProductsContent() {
         </div>
       </section>
 
-      {/* Products */}
-      <section className="pt-12 md:pt-16 pb-28">
+      {/* Products Grid */}
+      <section className="pt-4 md:pt-8 pb-28">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="space-y-36">
-            {(filteredProducts ?? [])?.map?.((product: any, i: number) => {
+          {/* GRID: compact cards 2-col desktop, 1-col mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {(filteredProducts ?? [])?.map?.((product: any, idx: number) => {
               const pData = product?.[locale] ?? product?.en ?? {};
-              const isEven = i % 2 === 0;
+              const isExpanded = expandedProduct === (product?.id ?? "");
+              const displayPrice = pData?.discountPrice ?? pData?.price ?? 0;
+
               return (
-                <AnimatedSection key={product?.id ?? i} delay={0.1}>
+                <AnimatedSection key={product?.id ?? idx} delay={idx * 0.05}>
                   <div
                     id={product?.id ?? ""}
-                    className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-start ${!isEven ? "lg:direction-rtl" : ""}`}
+                    className="bg-white rounded-2xl border border-brand-gold/10 hover:border-brand-gold/20 transition-all duration-300 overflow-hidden"
                   >
-                    {/* Image */}
-                    <div className={`${!isEven && !isRtl ? "lg:order-2" : ""}`}>
-                      <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-gradient-to-br from-brand-brown-dark to-brand-charcoal shadow-[0_30px_80px_rgba(0,0,0,0.2)] group card-shine-effect border border-brand-gold/10">
-                        <Image
-                          src={
-                            product?.image ?? "/images/lumiere-hair-serum.webp"
-                          }
-                          alt={pData?.name ?? "Product"}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-1000"
-                        />
-                      </div>
+                    {/* Card Image */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-brand-brown-dark/5 to-brand-charcoal/5">
+                      <Image
+                        src={
+                          product?.image ?? "/images/lumiere-hair-serum.webp"
+                        }
+                        alt={pData?.name ?? "Product"}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover hover:scale-105 transition-transform duration-700"
+                        priority={idx < 2}
+                        loading={idx < 2 ? undefined : "lazy"}
+                      />
+                      {/* Discount badge */}
+                      {pData?.discountPrice &&
+                        pData?.price &&
+                        pData.discountPrice < pData.price && (
+                          <div className="absolute top-3 left-3 px-3 py-1 bg-red-500/90 text-white text-[10px] font-bold rounded-full tracking-wider">
+                            -
+                            {Math.round(
+                              ((pData.price - pData.discountPrice) /
+                                pData.price) *
+                                100,
+                            )}
+                            %
+                          </div>
+                        )}
                     </div>
 
-                    {/* Content */}
-                    <div
-                      className={`${!isEven && !isRtl ? "lg:order-1" : ""} flex flex-col justify-center`}
-                    >
-                      <span className="text-brand-gold text-xs tracking-[0.3em] uppercase font-medium">
-                        {pData?.tagline ?? ""}
-                      </span>
-                      <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-brand-brown-dark mt-2 mb-5">
+                    {/* Card Content */}
+                    <div className="p-5">
+                      <h3 className="font-serif text-lg text-brand-brown-dark truncate">
                         {pData?.name ?? ""}
-                      </h2>
-                      <p className="text-brand-brown/80 leading-[1.85] mb-8 text-[15px]">
-                        {pData?.description ?? ""}
+                      </h3>
+                      <p className="text-brand-brown/60 text-[12px] uppercase tracking-wider mt-0.5 line-clamp-1">
+                        {pData?.tagline ?? ""}
                       </p>
 
-                      {/* Pricing */}
-                      {(pData?.discountPrice ?? pData?.price) && (
-                        <div className="mb-8 flex items-center gap-4">
-                          <div className="bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[1rem] p-5 border border-brand-gold/15 card-inner-glow">
-                            <span className="text-brand-gold font-serif text-3xl font-semibold tracking-tight">
-                              {pData?.discountPrice ?? pData?.price} AED
-                            </span>
-                            {pData?.discountPrice && pData?.price && (
-                              <>
-                                <span className="text-brand-brown/40 text-lg line-through ml-3 font-serif">
-                                  {pData.price} AED
-                                </span>
-                                <span className="ml-4 px-4 py-1.5 bg-red-500/15 text-red-400 text-[11px] font-semibold rounded-full tracking-wider uppercase border border-red-500/20">
-                                  Save {pData.price - pData.discountPrice} AED (
-                                  {Math.round(
-                                    ((pData.price - pData.discountPrice) /
-                                      pData.price) *
-                                    100,
-                                  )}
-                                  % OFF)
-                                </span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Signature Scent */}
-                      {pData?.scent && (
-                        <div className="mb-8 bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[1.5rem] p-7 border border-brand-gold/10 card-inner-glow">
-                          <div className="flex items-center gap-2 mb-3">
-                            <Flower2 size={15} className="text-brand-gold" />
-                            <h3 className="text-brand-gold font-medium text-[11px] uppercase tracking-[0.2em]">
-                              {(t as any)?.products?.scent ?? "Signature Scent"}
-                            </h3>
-                          </div>
-                          <p className="text-brand-cream/70 text-sm leading-[1.8] italic">
-                            {pData.scent}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Ingredients */}
-                      <div className="mb-8 bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[1.5rem] p-7 border border-brand-gold/10 card-inner-glow">
-                        <div className="flex items-center gap-2 mb-4">
-                          <Droplets size={15} className="text-brand-gold" />
-                          <h3 className="text-brand-gold font-medium text-[11px] uppercase tracking-[0.2em]">
-                            {(t as any)?.products?.ingredients ??
-                              "Precious Ingredients"}
-                          </h3>
-                        </div>
-                        <div className="flex flex-wrap gap-2.5">
-                          {(pData?.ingredients ?? [])?.map?.(
-                            (ing: string, j: number) => (
-                              <span
-                                key={j}
-                                className="px-4 py-2 bg-brand-gold/10 text-brand-gold rounded-full text-xs font-medium border border-brand-gold/15 hover:bg-brand-gold/18 hover:border-brand-gold/30 transition-all duration-300"
-                              >
-                                {ing ?? ""}
+                      {/* Price + Buttons */}
+                      <div className="mt-4 flex items-center justify-between gap-3">
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-serif text-xl font-semibold text-brand-brown-dark">
+                            {displayPrice} AED
+                          </span>
+                          {pData?.discountPrice &&
+                            pData?.price &&
+                            pData.discountPrice < pData.price && (
+                              <span className="text-xs text-brand-brown/40 line-through">
+                                {pData.price} AED
                               </span>
-                            ),
-                          ) ?? []}
+                            )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <AddToBagButton
+                            variant="icon"
+                            product={{
+                              productId: product?.id ?? "",
+                              name: pData?.name ?? "",
+                              price: displayPrice,
+                              quantity: 1,
+                              image:
+                                product?.image ??
+                                "/images/lumiere-hair-serum.webp",
+                              collection: product?.collection ?? "",
+                              locale: locale as "en" | "ar",
+                            }}
+                          />
                         </div>
                       </div>
 
-                      {/* Benefits */}
-                      <div className="mb-8 bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[1.5rem] p-7 border border-brand-gold/10 card-inner-glow">
-                        <div className="flex items-center gap-2 mb-4">
-                          <Sparkles size={15} className="text-brand-gold" />
-                          <h3 className="text-brand-gold font-medium text-[11px] uppercase tracking-[0.2em]">
-                            {(t as any)?.products?.benefits ?? "The Experience"}
-                          </h3>
+                      {/* Expand toggle */}
+                      <button
+                        onClick={() => toggleProduct(product?.id ?? "")}
+                        className="mt-5 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-brand-gold/15 text-brand-brown/70 hover:text-brand-brown-dark hover:border-brand-gold/30 hover:bg-brand-gold/3 transition-all duration-300 text-[12px] tracking-wider uppercase font-medium"
+                      >
+                        {isExpanded ? "Hide Details" : "View Details"}
+                        <ChevronDown
+                          size={14}
+                          className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    </div>
+
+                    {/* EXPANDED DETAILS */}
+                    {isExpanded && (
+                      <div className="px-5 pb-6 border-t border-brand-gold/10 pt-5">
+                        {/* Description */}
+                        <p className="text-brand-brown/80 leading-[1.8] text-[14px] mb-6">
+                          {pData?.description ?? ""}
+                        </p>
+
+                        {/* Trust Badges */}
+                        <div className="mb-6">
+                          <TrustBadges />
                         </div>
-                        <div className="space-y-3">
-                          {(pData?.benefits ?? [])?.map?.(
-                            (ben: string, j: number) => (
-                              <div
-                                key={j}
-                                className="flex items-center gap-3 group/item"
-                              >
-                                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-gold/25 to-brand-gold/10 flex items-center justify-center shrink-0 group-hover/item:from-brand-gold/35 group-hover/item:to-brand-gold/15 transition-all duration-300">
-                                  <Check
-                                    size={11}
+
+                        {/* Accordion: Ingredients, Benefits, Ritual, Fragrance, Reviews */}
+                        <Accordion
+                          type="single"
+                          collapsible
+                          className="w-full space-y-2"
+                        >
+                          {/* Ingredients */}
+                          {pData?.ingredients?.length > 0 && (
+                            <AccordionItem
+                              value="ingredients"
+                              className="border border-brand-gold/10 rounded-xl px-4"
+                            >
+                              <AccordionTrigger className="hover:no-underline py-3">
+                                <div className="flex items-center gap-2 text-brand-brown-dark text-[13px] font-medium">
+                                  <Droplets
+                                    size={14}
                                     className="text-brand-gold"
                                   />
-                                </div>
-                                <span className="text-brand-cream/80 text-sm">
-                                  {ben ?? ""}
-                                </span>
-                              </div>
-                            ),
-                          ) ?? []}
-                        </div>
-                      </div>
-
-                      {/* Ritual Steps */}
-                      {pData?.ritual && (
-                        <div className="bg-gradient-to-br from-brand-brown-dark to-brand-charcoal rounded-[1.5rem] p-7 border border-brand-gold/10">
-                          <div className="flex items-center gap-2 mb-5">
-                            <Crown size={15} className="text-brand-gold" />
-                            <h3 className="text-brand-gold font-medium text-[11px] uppercase tracking-[0.2em]">
-                              {(t as any)?.products?.howToUse ?? "The Ritual"}
-                            </h3>
-                          </div>
-                          <div className="space-y-4">
-                            {(pData.ritual ?? []).map(
-                              (step: string, j: number) => (
-                                <div key={j} className="flex items-start gap-4">
-                                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-gold/25 to-brand-gold/10 flex items-center justify-center shrink-0 mt-0.5 border border-brand-gold/15">
-                                    <span className="text-brand-gold text-[10px] font-bold">
-                                      {j + 1}
-                                    </span>
-                                  </div>
-                                  <span className="text-brand-cream/80 text-sm leading-[1.75]">
-                                    {step}
+                                  {(t as any)?.products?.ingredients ??
+                                    "Precious Ingredients"}
+                                  <span className="text-[10px] text-brand-gold/60 ml-1">
+                                    ({pData.ingredients.length})
                                   </span>
                                 </div>
-                              ),
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="pb-3">
+                                <div className="flex flex-wrap gap-2">
+                                  {(pData?.ingredients ?? [])?.map?.(
+                                    (ing: string, j: number) => (
+                                      <span
+                                        key={j}
+                                        className="px-3 py-1.5 bg-brand-gold/8 text-brand-gold rounded-full text-[11px] font-medium border border-brand-gold/12"
+                                      >
+                                        {ing ?? ""}
+                                      </span>
+                                    ),
+                                  )}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          )}
+
+                          {/* Benefits */}
+                          {pData?.benefits?.length > 0 && (
+                            <AccordionItem
+                              value="benefits"
+                              className="border border-brand-gold/10 rounded-xl px-4"
+                            >
+                              <AccordionTrigger className="hover:no-underline py-3">
+                                <div className="flex items-center gap-2 text-brand-brown-dark text-[13px] font-medium">
+                                  <Sparkles
+                                    size={14}
+                                    className="text-brand-gold"
+                                  />
+                                  {(t as any)?.products?.benefits ??
+                                    "The Experience"}
+                                  <span className="text-[10px] text-brand-gold/60 ml-1">
+                                    ({pData.benefits.length})
+                                  </span>
+                                </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="pb-3">
+                                <div className="space-y-2">
+                                  {(pData?.benefits ?? [])?.map?.(
+                                    (ben: string, j: number) => (
+                                      <div
+                                        key={j}
+                                        className="flex items-center gap-2 text-brand-brown/80 text-[13px]"
+                                      >
+                                        <div className="w-4 h-4 rounded-full bg-brand-gold/15 flex items-center justify-center shrink-0">
+                                          <Check
+                                            size={9}
+                                            className="text-brand-gold"
+                                          />
+                                        </div>
+                                        {ben ?? ""}
+                                      </div>
+                                    ),
+                                  )}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          )}
+
+                          {/* How to Use / Ritual */}
+                          {pData?.ritual?.length > 0 && (
+                            <AccordionItem
+                              value="ritual"
+                              className="border border-brand-gold/10 rounded-xl px-4"
+                            >
+                              <AccordionTrigger className="hover:no-underline py-3">
+                                <div className="flex items-center gap-2 text-brand-brown-dark text-[13px] font-medium">
+                                  <Crown
+                                    size={14}
+                                    className="text-brand-gold"
+                                  />
+                                  {(t as any)?.products?.howToUse ??
+                                    "The Ritual"}
+                                  <span className="text-[10px] text-brand-gold/60 ml-1">
+                                    ({pData.ritual.length} steps)
+                                  </span>
+                                </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="pb-3">
+                                <div className="space-y-3">
+                                  {(pData.ritual ?? []).map(
+                                    (step: string, j: number) => (
+                                      <div
+                                        key={j}
+                                        className="flex items-start gap-3"
+                                      >
+                                        <div className="w-6 h-6 rounded-full bg-brand-gold/10 flex items-center justify-center shrink-0 mt-0.5">
+                                          <span className="text-brand-gold text-[10px] font-bold">
+                                            {j + 1}
+                                          </span>
+                                        </div>
+                                        <span className="text-brand-brown/80 text-[13px] leading-[1.7]">
+                                          {step}
+                                        </span>
+                                      </div>
+                                    ),
+                                  )}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          )}
+
+                          {/* Fragrance Notes */}
+                          {pData?.scent && (
+                            <AccordionItem
+                              value="scent"
+                              className="border border-brand-gold/10 rounded-xl px-4"
+                            >
+                              <AccordionTrigger className="hover:no-underline py-3">
+                                <div className="flex items-center gap-2 text-brand-brown-dark text-[13px] font-medium">
+                                  <Flower2
+                                    size={14}
+                                    className="text-brand-gold"
+                                  />
+                                  {(t as any)?.products?.scent ??
+                                    "Signature Scent"}
+                                </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="pb-3">
+                                <FragranceNotes scent={pData.scent} />
+                              </AccordionContent>
+                            </AccordionItem>
+                          )}
+
+                          {/* Reviews */}
+                          <AccordionItem
+                            value="reviews"
+                            className="border border-brand-gold/10 rounded-xl px-4"
+                          >
+                            <AccordionTrigger className="hover:no-underline py-3">
+                              <div className="flex items-center gap-2 text-brand-brown-dark text-[13px] font-medium">
+                                <ShoppingBag
+                                  size={14}
+                                  className="text-brand-gold"
+                                />
+                                Customer Reviews
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <ReviewSection productId={product?.id ?? ""} />
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </div>
+                    )}
+
+                    {/* Sticky Mobile Bar (only for expanded) */}
+                    {isExpanded && (
+                      <StickyMobileBar
+                        productName={pData?.name ?? ""}
+                        price={pData?.price ?? 0}
+                        discountPrice={pData?.discountPrice}
+                        productId={product?.id ?? ""}
+                        image={
+                          product?.image ?? "/images/lumiere-hair-serum.webp"
+                        }
+                        collection={product?.collection ?? ""}
+                      />
+                    )}
                   </div>
                 </AnimatedSection>
               );
             }) ?? []}
           </div>
+
+          {/* Bundle Suggestion — standalone promo between products, shown once */}
+          {filteredProducts?.length > 0 && (
+            <div className="mt-12">
+              <BundleSuggestion
+                currentProductId={filteredProducts[0]?.id ?? ""}
+                currentCollection={filteredProducts[0]?.collection ?? ""}
+                locale={locale as "en" | "ar"}
+              />
+            </div>
+          )}
         </div>
       </section>
     </div>

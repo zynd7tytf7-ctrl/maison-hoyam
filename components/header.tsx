@@ -1,16 +1,24 @@
 "use client";
 
-import { Globe, Menu, X } from "lucide-react";
+import { Globe, Menu, ShoppingBag, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useLanguage } from "./language-context";
+import { useCart } from "@/components/cart-context";
+
+const CartDrawer = dynamic(() => import("@/components/cart-drawer"), {
+  ssr: false,
+});
 
 export default function Header() {
   const { locale, t, setLocale } = useLanguage();
+  const { totalItems } = useCart();
   const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -39,31 +47,35 @@ export default function Header() {
   // Always polished & consistent look from the very start
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${effectiveScrolled
-        ? "bg-white/95 backdrop-blur-2xl shadow-[0_1px_0_rgba(212,165,116,0.12),0_8px_40px_rgba(44,24,16,0.06)]"
-        : "bg-brand-charcoal/85 backdrop-blur-xl shadow-[0_1px_0_rgba(212,165,116,0.08)]"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+        effectiveScrolled
+          ? "bg-white/95 backdrop-blur-2xl shadow-[0_1px_0_rgba(212,165,116,0.12),0_8px_40px_rgba(44,24,16,0.06)]"
+          : "bg-brand-charcoal/85 backdrop-blur-xl shadow-[0_1px_0_rgba(212,165,116,0.08)]"
+      }`}
     >
       {/* Top accent line - animated */}
       <div
-        className={`h-[1px] transition-all duration-700 ${effectiveScrolled
-          ? "bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent"
-          : "bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent"
-          }`}
+        className={`h-[1px] transition-all duration-700 ${
+          effectiveScrolled
+            ? "bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent"
+            : "bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent"
+        }`}
       />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div
-          className={`flex items-center justify-between transition-all duration-700 ${effectiveScrolled ? "h-16 md:h-18" : "h-20 md:h-24"
-            }`}
+          className={`flex items-center justify-between transition-all duration-700 ${
+            effectiveScrolled ? "h-16 md:h-18" : "h-20 md:h-24"
+          }`}
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0 group">
             <div
-              className={`relative transition-all duration-500 ${effectiveScrolled
-                ? "w-10 h-10 md:w-11 md:h-11"
-                : "w-[52px] h-[52px] md:w-14 md:h-14"
-                }`}
+              className={`relative transition-all duration-500 ${
+                effectiveScrolled
+                  ? "w-10 h-10 md:w-11 md:h-11"
+                  : "w-[52px] h-[52px] md:w-14 md:h-14"
+              }`}
             >
               <Image
                 src="/images/logo.webp"
@@ -76,19 +88,21 @@ export default function Header() {
             </div>
             <div className="flex flex-col">
               <span
-                className={`font-serif tracking-[0.18em] transition-all duration-500 ${effectiveScrolled
-                  ? "text-brand-brown-dark text-sm md:text-base"
-                  : "text-white text-base md:text-lg drop-shadow-md"
-                  }`}
+                className={`font-serif tracking-[0.18em] transition-all duration-500 ${
+                  effectiveScrolled
+                    ? "text-brand-brown-dark text-sm md:text-base"
+                    : "text-white text-base md:text-lg drop-shadow-md"
+                }`}
               >
                 <span className="hidden sm:inline">MAISON HOYAM</span>
                 <span className="sm:hidden">MH</span>
               </span>
               <span
-                className={`text-[8px] tracking-[0.3em] uppercase transition-all duration-500 hidden sm:block ${effectiveScrolled
-                  ? "text-brand-gold-dark/80"
-                  : "text-brand-gold/80 drop-shadow-sm"
-                  }`}
+                className={`text-[8px] tracking-[0.3em] uppercase transition-all duration-500 hidden sm:block ${
+                  effectiveScrolled
+                    ? "text-brand-gold-dark/80"
+                    : "text-brand-gold/80 drop-shadow-sm"
+                }`}
               >
                 Luxury Haircare House
               </span>
@@ -103,14 +117,15 @@ export default function Header() {
                 <Link
                   key={link?.href}
                   href={link?.href ?? "/"}
-                  className={`relative px-4 py-2 text-[13px] tracking-[0.12em] uppercase transition-all duration-300 rounded-full ${effectiveScrolled
-                    ? active
-                      ? "text-brand-gold-dark font-semibold bg-brand-gold/12"
-                      : "text-brand-brown/75 font-medium hover:text-brand-brown-dark hover:bg-brand-gold/8"
-                    : active
-                      ? "text-white font-semibold bg-white/12"
-                      : "text-white/80 font-medium hover:text-white hover:bg-white/8"
-                    }`}
+                  className={`relative px-4 py-2 text-[13px] tracking-[0.12em] uppercase transition-all duration-300 rounded-full ${
+                    effectiveScrolled
+                      ? active
+                        ? "text-brand-gold-dark font-semibold bg-brand-gold/12"
+                        : "text-brand-brown/75 font-medium hover:text-brand-brown-dark hover:bg-brand-gold/8"
+                      : active
+                        ? "text-white font-semibold bg-white/12"
+                        : "text-white/80 font-medium hover:text-white hover:bg-white/8"
+                  }`}
                 >
                   {link?.label}
                   {active && (
@@ -122,22 +137,42 @@ export default function Header() {
 
             {/* Divider */}
             <div
-              className={`w-px h-4 mx-3 transition-all duration-500 ${effectiveScrolled ? "bg-brand-gold/20" : "bg-white/15"
-                }`}
+              className={`w-px h-4 mx-3 transition-all duration-500 ${
+                effectiveScrolled ? "bg-brand-gold/20" : "bg-white/15"
+              }`}
             />
 
             {/* Language Switcher */}
             <button
               onClick={() => setLocale(locale === "en" ? "ar" : "en")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all duration-300 border ${effectiveScrolled
-                ? "border-brand-gold/20 text-brand-brown hover:bg-brand-gold/5 hover:border-brand-gold/35"
-                : "border-white/20 text-white/80 hover:bg-white/10 hover:border-white/35"
-                }`}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all duration-300 border ${
+                effectiveScrolled
+                  ? "border-brand-gold/20 text-brand-brown hover:bg-brand-gold/5 hover:border-brand-gold/35"
+                  : "border-white/20 text-white/80 hover:bg-white/10 hover:border-white/35"
+              }`}
             >
               <Globe size={12} className="opacity-60" />
               <span className="font-medium">
                 {locale === "en" ? "عربي" : "EN"}
               </span>
+            </button>
+
+            {/* Cart Button */}
+            <button
+              onClick={() => setCartOpen(true)}
+              className={`relative ml-1 p-2 rounded-full transition-all duration-300 ${
+                effectiveScrolled
+                  ? "text-brand-brown hover:bg-brand-gold/5"
+                  : "text-white hover:bg-white/10"
+              }`}
+              aria-label={`Cart${totalItems > 0 ? ` (${totalItems > 99 ? "99+" : totalItems} item${totalItems === 1 ? "" : "s"})` : ""}`}
+            >
+              <ShoppingBag size={18} />
+              {totalItems > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-brand-gold text-brand-charcoal text-[10px] font-bold flex items-center justify-center shadow-md">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
             </button>
           </nav>
 
@@ -145,26 +180,47 @@ export default function Header() {
           <div className="flex items-center gap-2.5 md:hidden">
             <button
               onClick={() => setLocale(locale === "en" ? "ar" : "en")}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] tracking-wider border transition-all ${effectiveScrolled
-                ? "border-brand-gold/20 text-brand-brown"
-                : "border-white/20 text-white/80"
-                }`}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] tracking-wider border transition-all ${
+                effectiveScrolled
+                  ? "border-brand-gold/20 text-brand-brown"
+                  : "border-white/20 text-white/80"
+              }`}
             >
               <Globe size={10} className="opacity-60" />
               {locale === "en" ? "عربي" : "EN"}
             </button>
             <button
+              onClick={() => setCartOpen(true)}
+              className={`relative p-2 rounded-xl transition-all ${
+                effectiveScrolled
+                  ? "text-brand-brown hover:bg-brand-gold/5"
+                  : "text-white hover:bg-white/10"
+              }`}
+              aria-label={`Cart${totalItems > 0 ? ` (${totalItems > 99 ? "99+" : totalItems} item${totalItems === 1 ? "" : "s"})` : ""}`}
+            >
+              <ShoppingBag size={18} />
+              {totalItems > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-brand-gold text-brand-charcoal text-[10px] font-bold flex items-center justify-center shadow-md">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
+            </button>
+            <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`p-2 rounded-xl transition-all ${effectiveScrolled
-                ? "text-brand-brown hover:bg-brand-gold/5"
-                : "text-white hover:bg-white/10"
-                }`}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              className={`p-2 rounded-xl transition-all ${
+                effectiveScrolled
+                  ? "text-brand-brown hover:bg-brand-gold/5"
+                  : "text-white hover:bg-white/10"
+              }`}
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </div>
+
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
 
       {/* Mobile Menu */}
       {mobileOpen && (
@@ -181,10 +237,11 @@ export default function Header() {
                   <Link
                     href={link?.href ?? "/"}
                     onClick={() => setMobileOpen(false)}
-                    className={`flex items-center gap-3 py-3 px-4 rounded-2xl text-[13px] tracking-wider uppercase transition-all duration-300 ${active
-                      ? "text-brand-brown-dark bg-gradient-to-r from-brand-gold/12 to-brand-gold/5 font-semibold"
-                      : "text-brand-brown/70 hover:text-brand-brown-dark hover:bg-brand-gold/5"
-                      }`}
+                    className={`flex items-center gap-3 py-3 px-4 rounded-2xl text-[13px] tracking-wider uppercase transition-all duration-300 ${
+                      active
+                        ? "text-brand-brown-dark bg-gradient-to-r from-brand-gold/12 to-brand-gold/5 font-semibold"
+                        : "text-brand-brown/70 hover:text-brand-brown-dark hover:bg-brand-gold/5"
+                    }`}
                   >
                     {active && (
                       <div className="w-1 h-4 rounded-full bg-gradient-to-b from-brand-gold to-brand-gold-dark" />

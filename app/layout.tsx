@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/breadcrumb";
+import { CartProvider } from "@/components/cart-context";
 import { ChunkLoadErrorHandler } from "@/components/chunk-load-error-handler";
 import Header from "@/components/header";
 import { LanguageProvider } from "@/components/language-context";
@@ -154,14 +155,16 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <LanguageProvider>
-          <Header />
-          <Breadcrumb />
-          <main>{children}</main>
-          <Footer />
-          <FloatingButtons />
-          <ScrollToTop />
-          <Toaster />
-          <ChunkLoadErrorHandler />
+          <CartProvider>
+            <Header />
+            <Breadcrumb />
+            <main>{children}</main>
+            <Footer />
+            <FloatingButtons />
+            <ScrollToTop />
+            <Toaster />
+            <ChunkLoadErrorHandler />
+          </CartProvider>
         </LanguageProvider>
       </body>
     </html>

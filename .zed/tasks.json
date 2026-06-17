@@ -1,0 +1,113 @@
+[
+  {
+    "label": "Dev Server",
+    "command": "pnpm dev",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["frontend", "nextjs"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Start Next.js development server",
+    "env": {
+      "NEXT_PUBLIC_SITE_URL": "http://localhost:3000"
+    }
+  },
+  {
+    "label": "Build (Production)",
+    "command": "pnpm build",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["frontend", "nextjs"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Production build with type checking"
+  },
+  {
+    "label": "Lint",
+    "command": "pnpm lint",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["lint"],
+    "use_new_terminal": false,
+    "reveal": "never",
+    "description": "Run ESLint across the project"
+  },
+  {
+    "label": "Type Check (tsc)",
+    "command": "npx tsc --noEmit",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["typecheck"],
+    "use_new_terminal": false,
+    "reveal": "never",
+    "description": "Full TypeScript type check without emitting files"
+  },
+  {
+    "label": "Type Check (watch)",
+    "command": "npx tsc --noEmit --watch",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["typecheck"],
+    "use_new_terminal": true,
+    "reveal": "never",
+    "description": "Continuous TypeScript type checking"
+  },
+  {
+    "label": "Prisma: Generate Client",
+    "command": "npx prisma generate",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["prisma", "db"],
+    "use_new_terminal": false,
+    "reveal": "never",
+    "description": "Generate Prisma client from schema"
+  },
+  {
+    "label": "Prisma: Validate Schema",
+    "command": "npx prisma validate",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["prisma", "db"],
+    "use_new_terminal": false,
+    "reveal": "never",
+    "description": "Validate Prisma schema syntax"
+  },
+  {
+    "label": "Prisma: Migrate Dev",
+    "command": "npx prisma migrate dev",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["prisma", "db"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Create and apply a new migration"
+  },
+  {
+    "label": "Prisma: Studio",
+    "command": "npx prisma studio",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["prisma", "db"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Open Prisma Studio GUI for database browsing"
+  },
+  {
+    "label": "Clean (Next.js cache)",
+    "command": "rm -rf .next && pnpm install",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["clean"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Clean Next.js build cache and reinstall deps"
+  },
+  {
+    "label": "Playwright Tests",
+    "command": "pnpm test:browser",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["test"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Run Playwright browser tests"
+  },
+  {
+    "label": "Seed Database",
+    "command": "npx tsx --require dotenv/config scripts/safe-seed.ts",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["prisma", "db"],
+    "use_new_terminal": true,
+    "reveal": "always",
+    "description": "Run database seed script"
+  }
+]

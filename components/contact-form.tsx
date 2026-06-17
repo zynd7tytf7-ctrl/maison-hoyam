@@ -44,7 +44,7 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    "w-full bg-white/[0.06] border border-brand-gold/15 rounded-2xl px-5 py-4 text-brand-cream text-sm placeholder:text-brand-cream/30 focus:outline-none focus:border-brand-gold/40 focus:ring-2 focus:ring-brand-gold/10 transition-all duration-300";
+    "w-full bg-white/[0.06] border border-brand-gold/15 rounded-2xl px-5 py-4 text-brand-cream text-sm placeholder:text-brand-cream/30 focus:outline-none focus:border-brand-gold/40 focus:ring-2 focus:ring-brand-gold/10 focus:bg-brand-gold/[0.08] transition-all duration-300";
   const labelClass =
     "text-brand-gold/80 text-xs tracking-[0.15em] uppercase font-medium mb-2 block";
 

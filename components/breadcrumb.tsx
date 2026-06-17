@@ -19,8 +19,13 @@ export default function Breadcrumb() {
     "/contact": (t as any)?.nav?.contact ?? "Contact",
   };
 
-  // Don't show breadcrumb on home page
-  if (pathname === "/") return null;
+  // Don't show breadcrumb on home page, checkout, or order confirmation
+  if (
+    pathname === "/" ||
+    pathname?.startsWith("/checkout") ||
+    pathname?.startsWith("/order-confirmation")
+  )
+    return null;
 
   // Get current page label
   const currentPath = pathname.split("/").filter(Boolean)[0];
@@ -56,14 +61,12 @@ export default function Breadcrumb() {
           __html: JSON.stringify(breadcrumbJsonLd),
         }}
       />
-      <div
-        className={`py-3 mt-16 ${isRtl ? "text-right" : "text-left"}`}
-      >
+      <div className={`py-3 mt-16 ${isRtl ? "text-right" : "text-left"}`}>
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <nav className="flex items-center gap-2" aria-label="Breadcrumb">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-brand-brown/60 hover:text-brand-brown-dark transition-colors duration-300"
+              className="inline-flex items-center gap-2 text-brand-brown-dark/70 hover:text-brand-brown-dark transition-colors duration-300"
             >
               <Home size={16} />
               <span className="text-sm font-medium">{routeLabels["/"]}</span>
