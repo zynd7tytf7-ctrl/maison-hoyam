@@ -17,11 +17,11 @@ jobs:
     name: Validate PR
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with:
           version: ${{ env.PNPM_VERSION }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
@@ -44,10 +44,10 @@ jobs:
     name: PR Metadata
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Check PR Title Format
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const title = context.payload.pull_request.title;
@@ -60,7 +60,7 @@ jobs:
             }
 
       - name: Check PR Body
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-body-check') }}
         with:
           script: |
@@ -74,8 +74,8 @@ jobs:
     name: Size Label
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/labeler@v5
+      - uses: actions/checkout@v7
+      - uses: actions/labeler@v6
         continue-on-error: true
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
